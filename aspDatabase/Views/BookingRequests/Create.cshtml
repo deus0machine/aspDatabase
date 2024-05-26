@@ -1,0 +1,78 @@
+﻿@model aspDatabase.Models.BookingRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>BookingRequest</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SecondName" class="control-label"></label>
+                <input asp-for="SecondName" class="form-control" />
+                <span asp-validation-for="SecondName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ThirdName" class="control-label"></label>
+                <input asp-for="ThirdName" class="form-control" />
+                <span asp-validation-for="ThirdName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberofPhone" class="control-label"></label>
+                <input asp-for="NumberofPhone" class="form-control" />
+                <span asp-validation-for="NumberofPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="passportSeries" class="control-label"></label>
+                <input asp-for="passportSeries" class="form-control" />
+                <span asp-validation-for="passportSeries" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="nubmerPassport" class="control-label"></label>
+                <input asp-for="nubmerPassport" class="form-control" />
+                <span asp-validation-for="nubmerPassport" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookingDateStart" class="control-label"></label>
+                <input asp-for="BookingDateStart" class="form-control" />
+                <span asp-validation-for="BookingDateStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BookingDateEnd" class="control-label"></label>
+                <input asp-for="BookingDateEnd" class="form-control" />
+                <span asp-validation-for="BookingDateEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Idhotel" class="control-label"></label>
+                <select asp-for="Idhotel" class ="form-control" asp-items="ViewBag.Idhotel"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdressRoom" class="control-label"></label>
+                <input asp-for="AdressRoom" class="form-control" />
+                <span asp-validation-for="AdressRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

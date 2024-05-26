@@ -1,0 +1,90 @@
+﻿@model IEnumerable<aspDatabase.Models.BookingRequest>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThirdName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberofPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.passportSeries)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nubmerPassport)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingDateStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingDateEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hotel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdressRoom)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberofPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.passportSeries)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nubmerPassport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingDateStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookingDateEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hotel.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdressRoom)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

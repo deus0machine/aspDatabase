@@ -1,0 +1,73 @@
+﻿@model IEnumerable<aspDatabase.Models.Client>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Индекс</h1>
+@if (!User.IsInRole("guest"))
+{
+    <p>
+        <a asp-action="Create">Создать новую</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThirdName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberofPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.passportSeries)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nubmerPassport)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThirdName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberofPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.passportSeries)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.nubmerPassport)
+            </td>
+            @if(!User.IsInRole("guest")){
+                <td>
+
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            }
+
+            
+        </tr>
+}
+    </tbody>
+</table>
