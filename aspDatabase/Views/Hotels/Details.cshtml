@@ -30,7 +30,15 @@
         </dd>
     </dl>
 </div>
+@if (!string.IsNullOrEmpty(Model.Img))
+{
+    <img src="@Model.Img" alt="Изображение" class="img-fluid" />
+}
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Редактировать</a> |
+    @if (!User.IsInRole("admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Редактировать</a>
+    }
+    |
     <a asp-action="Index">Вернуться к списку</a>
 </div>

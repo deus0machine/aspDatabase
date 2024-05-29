@@ -29,8 +29,9 @@ namespace aspDatabase.Models
         public virtual int? Idhotel { get; set; }
         public virtual Hotel? Hotel { get; set; }
 
-        [Display(Name = "Адрес комнаты")]
-        public string AdressRoom { get; set; }
+        [Display(Name = "Комната")]
+        public virtual int? IdRoom { get; set; }
+        public virtual Room? Room { get; set; }
 
     }
 }

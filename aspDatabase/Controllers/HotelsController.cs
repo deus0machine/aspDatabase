@@ -5,6 +5,7 @@ using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Numerics;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspDatabase.Controllers
 {
@@ -44,7 +45,7 @@ namespace aspDatabase.Controllers
 
             return View(hotel);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Hotels/Create
         public IActionResult Create()
         {
@@ -54,6 +55,7 @@ namespace aspDatabase.Controllers
         // POST: Hotels/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Rating,Name,Owner")] Hotel hotel, IFormFile upload)
@@ -78,6 +80,7 @@ namespace aspDatabase.Controllers
         }
 
         // GET: Hotels/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Hotels == null)
@@ -96,6 +99,7 @@ namespace aspDatabase.Controllers
         // POST: Hotels/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Rating,Name,Owner")] Hotel hotel, IFormFile? upload)
@@ -143,7 +147,7 @@ namespace aspDatabase.Controllers
             }
             return View(hotel);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Hotels/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -163,6 +167,7 @@ namespace aspDatabase.Controllers
         }
 
         // POST: Hotels/Delete/5
+        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

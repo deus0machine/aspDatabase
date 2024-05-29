@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspDatabase.Models;
 
@@ -11,9 +12,11 @@ using aspDatabase.Models;
 namespace aspDatabase.Migrations
 {
     [DbContext(typeof(BookingDBContext))]
-    partial class BookingDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240526190342_NewBokingRequest")]
+    partial class NewBokingRequest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,8 +256,7 @@ namespace aspDatabase.Migrations
                 {
                     b.HasOne("aspDatabase.Models.Hotel", "Hotel")
                         .WithMany()
-                        .HasForeignKey("Idhotel")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Idhotel");
 
                     b.Navigation("Hotel");
                 });

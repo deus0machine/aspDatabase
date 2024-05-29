@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Создать</h1>
 
-<h4>BookingRequest</h4>
+<h4>Заявка на бронь</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -45,22 +45,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="BookingDateStart" class="control-label"></label>
-                <input asp-for="BookingDateStart" class="form-control" />
+                <input asp-for="BookingDateStart" class="form-control" type="date" />
                 <span asp-validation-for="BookingDateStart" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BookingDateEnd" class="control-label"></label>
-                <input asp-for="BookingDateEnd" class="form-control" />
+                <input asp-for="BookingDateEnd" class="form-control" type="date" />
                 <span asp-validation-for="BookingDateEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Idhotel" class="control-label"></label>
-                <select asp-for="Idhotel" class ="form-control" asp-items="ViewBag.Idhotel"></select>
+                <select asp-for="Idhotel" class="form-control" asp-items="ViewBag.Idhotel"></select>
+                <span asp-validation-for="Idhotel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdressRoom" class="control-label"></label>
-                <input asp-for="AdressRoom" class="form-control" />
-                <span asp-validation-for="AdressRoom" class="text-danger"></span>
+                <label asp-for="IdRoom" class="control-label"></label>
+                <input asp-for="IdRoom" class="form-control" />
+                <span asp-validation-for="IdRoom" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -68,11 +69,21 @@
         </form>
     </div>
 </div>
+@if (!User.IsInRole("admin"))
+{
+    <div>
+        <a asp-action="Index">Вернуться к списку</a>
+    </div>
+}
+@if (!User.IsInRole("guest"))
+{
+    <div>
+        <a asp-controller="Rooms" asp-action="Index">Перейти к списку комнат</a>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+}
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

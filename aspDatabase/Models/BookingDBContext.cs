@@ -8,6 +8,16 @@ namespace aspDatabase.Models
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Room>()
+                .HasOne(r => r.Hotel)
+                .WithMany()  // Assuming Hotel doesn't have a collection of Rooms
+                .HasForeignKey(r => r.Idhotel)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            base.OnModelCreating(modelBuilder);
+        }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Hotel> Hotels{ get; set; }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using aspDatabase.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspDatabase.Controllers
 {
@@ -43,14 +44,14 @@ namespace aspDatabase.Controllers
 
             return View(room);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Rooms/Create
         public IActionResult Create()
         {
             ViewData["Idhotel"] = new SelectList(_context.Hotels, "Id", "Id");
             return View();
         }
-
+        [Authorize(Roles = "admin")]
         // POST: Rooms/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -67,7 +68,7 @@ namespace aspDatabase.Controllers
             ViewData["Idhotel"] = new SelectList(_context.Hotels, "Id", "Id", room.Idhotel);
             return View(room);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Rooms/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -84,7 +85,7 @@ namespace aspDatabase.Controllers
             ViewData["Idhotel"] = new SelectList(_context.Hotels, "Id", "Id", room.Idhotel);
             return View(room);
         }
-
+        [Authorize(Roles = "admin")]
         // POST: Rooms/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -120,7 +121,7 @@ namespace aspDatabase.Controllers
             ViewData["Idhotel"] = new SelectList(_context.Hotels, "Id", "Id", room.Idhotel);
             return View(room);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Rooms/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -139,7 +140,7 @@ namespace aspDatabase.Controllers
 
             return View(room);
         }
-
+        [Authorize(Roles = "admin")]
         // POST: Rooms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

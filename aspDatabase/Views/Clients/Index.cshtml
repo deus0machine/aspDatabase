@@ -4,11 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Индекс</h1>
+<h1>Клиенты</h1>
 @if (!User.IsInRole("guest"))
 {
     <p>
-        <a asp-action="Create">Создать новую</a>
+        <a asp-action="Create">Создать</a>
     </p>
 }
 
@@ -60,9 +60,11 @@
             @if(!User.IsInRole("guest")){
                 <td>
 
-                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+                    <a asp-action="Create" asp-controller="BookingRequests" asp-route-roomId="@item.ID">Создать заявку</a>
+                    
                 </td>
             }
 
