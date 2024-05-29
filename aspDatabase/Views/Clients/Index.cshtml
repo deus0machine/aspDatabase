@@ -1,75 +1,51 @@
 ﻿@model IEnumerable<aspDatabase.Models.Client>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Клиенты";
 }
 
-<h1>Клиенты</h1>
+<h1 class="display-4">Клиенты</h1>
 @if (!User.IsInRole("guest"))
 {
     <p>
-        <a asp-action="Create">Создать</a>
+        <a class="btn btn-primary" asp-action="Create">Создать</a>
     </p>
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThirdName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberofPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passportSeries)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nubmerPassport)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThirdName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberofPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passportSeries)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nubmerPassport)
-            </td>
-            @if(!User.IsInRole("guest")){
-                <td>
-
-                    <a asp-action="Edit" asp-route-id="@item.ID">Редактировать</a> |
-                    <a asp-action="Details" asp-route-id="@item.ID">Детали</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
-                    <a asp-action="Create" asp-controller="BookingRequests" asp-route-roomId="@item.ID">Создать заявку</a>
-                    
-                </td>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.SecondName)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.ThirdName)</th>
+                <th>@Html.DisplayNameFor(model => model.NumberofPhone)</th>
+                <th>@Html.DisplayNameFor(model => model.passportSeries)</th>
+                <th>@Html.DisplayNameFor(model => model.nubmerPassport)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.SecondName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ThirdName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NumberofPhone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.passportSeries)</td>
+                    <td>@Html.DisplayFor(modelItem => item.nubmerPassport)</td>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <td>
+                            <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@item.ID">Редактировать</a>
+                            <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.ID">Детали</a>
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.ID">Удалить</a>
+                            <a class="btn btn-sm btn-success" asp-action="Create" asp-controller="BookingRequests" asp-route-roomId="@item.ID">Создать заявку</a>
+                        </td>
+                    }
+                </tr>
             }
-
-            
-        </tr>
-}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>

@@ -30,17 +30,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="NumberofPhone" class="control-label"></label>
-                <input asp-for="NumberofPhone" class="form-control" />
+                <input asp-for="NumberofPhone" class="form-control" maxlength="11" pattern="\d{1,11}"/>
                 <span asp-validation-for="NumberofPhone" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="passportSeries" class="control-label"></label>
-                <input asp-for="passportSeries" class="form-control" />
+                <input asp-for="passportSeries" class="form-control" maxlength="4" pattern="\d{1,4}" />
                 <span asp-validation-for="passportSeries" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="nubmerPassport" class="control-label"></label>
-                <input asp-for="nubmerPassport" class="form-control" />
+                <input asp-for="nubmerPassport" class="form-control" maxlength="6" pattern="\d{1,6}" />
                 <span asp-validation-for="nubmerPassport" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,14 +54,13 @@
                 <span asp-validation-for="BookingDateEnd" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Idhotel" class="control-label"></label>
-                <select asp-for="Idhotel" class="form-control" asp-items="ViewBag.Idhotel"></select>
-                <span asp-validation-for="Idhotel" class="text-danger"></span>
+                <label asp-for="hotelId" class="control-label"></label>
+                <select asp-for="hotelId" class="form-control" asp-items="ViewBag.idHotel" id="hotelSelect"></select>
             </div>
             <div class="form-group">
-                <label asp-for="IdRoom" class="control-label"></label>
-                <input asp-for="IdRoom" class="form-control" />
-                <span asp-validation-for="IdRoom" class="text-danger"></span>
+                <label asp-for="roomID" class="control-label"></label>
+                <select asp-for="roomID" class="form-control" id="roomSelect"></select>
+                <span asp-validation-for="roomID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -69,21 +68,43 @@
         </form>
     </div>
 </div>
-@if (!User.IsInRole("admin"))
+@if (User.IsInRole("admin"))
 {
     <div>
         <a asp-action="Index">Вернуться к списку</a>
     </div>
 }
-@if (!User.IsInRole("guest"))
+@if (User.IsInRole("guest"))
 {
     <div>
         <a asp-controller="Rooms" asp-action="Index">Перейти к списку комнат</a>
     </div>
-
 }
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#hotelSelect').change(function () {
+                var hotelId = $(this).val();
+                if (hotelId) {
+                    $.getJSON('@Url.Action("GetRoomsByHotelId", "BookingRequests")', { hotelId: hotelId }, function (rooms) {
+                        var $roomSelect = $('#roomSelect');
+                        $roomSelect.empty();
+                        $.each(rooms, function (index, room) {
+                            $roomSelect.append($('<option/>', {
+                                value: room.id,
+                                text: room.adressRoom
+                            }));
+                        });
+                    });
+                } else {
+                    $('#roomSelect').empty();
+                }
+            });
+        });
+    </script>
 }

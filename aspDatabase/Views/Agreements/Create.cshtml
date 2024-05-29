@@ -5,9 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
+<h1>Создать</h1>
 
-<h4>Agreement</h4>
+<h4>Соглашение</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,7 +15,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="clientID" class="control-label"></label>
-                <select asp-for="clientID" class="form-control" asp-items="ViewBag.clientID"></select>
+                <select asp-for="clientID" class="form-control" asp-items="ViewBag.ClientId"></select>
             </div>
             <div class="form-group">
                 <label asp-for="dateDoc" class="control-label"></label>
@@ -24,21 +24,26 @@
             </div>
             <div class="form-group">
                 <label asp-for="hotelId" class="control-label"></label>
-                <select asp-for="hotelId" class="form-control" asp-items="ViewBag.Idhotel"></select>
+                <select asp-for="hotelId" class="form-control" asp-items="ViewBag.HotelId" id="hotelSelect"></select>
             </div>
             <div class="form-group">
                 <label asp-for="roomID" class="control-label"></label>
-                <select asp-for="roomID" class="form-control" asp-items="ViewBag.roomID"></select>
+                <select asp-for="roomID" class="form-control" id="roomSelect"></select>
             </div>
             <div class="form-group">
                 <label asp-for="reservStart" class="control-label"></label>
-                <input asp-for="reservStart" class="form-control" />
+                <input asp-for="reservStart" class="form-control" id="reservStart" />
                 <span asp-validation-for="reservStart" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="reservEnd" class="control-label"></label>
-                <input asp-for="reservEnd" class="form-control" />
+                <input asp-for="reservEnd" class="form-control" id="reservEnd" />
                 <span asp-validation-for="reservEnd" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" id="cost" readonly />
+                <span asp-validation-for="Cost" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -48,9 +53,53 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Вернуться к списку</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#hotelSelect').change(function () {
+                var hotelId = $(this).val();
+                if (hotelId) {
+                    $.getJSON('@Url.Action("GetRoomsByHotelId", "Agreements")', { hotelId: hotelId }, function (rooms) {
+                        var $roomSelect = $('#roomSelect');
+                        $roomSelect.empty();
+                        $.each(rooms, function (index, room) {
+                            $roomSelect.append($('<option/>', {
+                                value: room.id,
+                                text: room.adressRoom
+                            }));
+                        });
+                    });
+                } else {
+                    $('#roomSelect').empty();
+                }
+            });
+
+            function updateCost() {
+                var roomId = $('#roomSelect').val();
+                var reservStart = new Date($('#reservStart').val());
+                var reservEnd = new Date($('#reservEnd').val());
+
+                if (roomId && reservStart && reservEnd && reservEnd > reservStart) {
+                    var days = (reservEnd - reservStart) / (1000 * 60 * 60 * 24);
+
+                    $.getJSON('@Url.Action("GetRoomCost", "Agreements")', { roomId: roomId }, function (costPerDay) {
+                        $('#cost').val(costPerDay * days);
+                    });
+                } else {
+                    $('#cost').val('');
+                }
+            }
+
+            $('#roomSelect').change(updateCost);
+            $('#reservStart').change(updateCost);
+            $('#reservEnd').change(updateCost);
+        });
+    </script>
 }

@@ -30,6 +30,7 @@ namespace aspDatabase.Models
         [Display(Name = "Конец бронирования")]
         public DateTime reservEnd { get; set; }
 
-        public int cost { get; set; }
+        [Display(Name = "Стоимость")]
+        public int Cost { get; set; }
     }
 }

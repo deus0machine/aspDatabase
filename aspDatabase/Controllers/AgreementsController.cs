@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using aspDatabase.Models;
@@ -24,7 +20,11 @@ namespace aspDatabase.Controllers
         // GET: Agreements
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Agreements.ToListAsync());
+            var agreements = _context.Agreements
+                            .Include(a => a.Client)
+                            .Include(a => a.Hotel) 
+                            .ToList();
+            return View(agreements);
         }
 
         // GET: Agreements/Details/5
@@ -76,6 +76,15 @@ namespace aspDatabase.Controllers
         {
             if (ModelState.IsValid)
             {
+                var room = _context.Rooms.FirstOrDefault(r => r.ID == agreement.roomID);
+
+                if (room != null)
+                {
+                    // Рассчитайте количество дней
+                    var days = (agreement.reservEnd - agreement.reservStart).Days;
+                    // Рассчитайте стоимость
+                    agreement.Cost = room.Cost * days;
+                }
                 _context.Add(agreement);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,6 +93,24 @@ namespace aspDatabase.Controllers
             ViewData["clientID"] = new SelectList(_context.Clients, "ID", "SecondName", agreement.clientID);
             ViewData["roomID"] = new SelectList(_context.Rooms, "ID", "AdressRoom", agreement.roomID);
             return View(agreement);
+        }
+        [HttpGet]
+        public JsonResult GetRoomsByHotelId(int hotelId)
+        {
+            var rooms = _context.Rooms
+                                .Where(r => r.Idhotel == hotelId)
+                                .Select(r => new { r.ID, r.AdressRoom })
+                                .ToList();
+            return Json(rooms);
+        }
+        [HttpGet]
+        public JsonResult GetRoomCost(int roomId)
+        {
+            var cost = _context.Rooms
+                               .Where(r => r.ID == roomId)
+                               .Select(r => r.Cost)
+                               .FirstOrDefault();
+            return Json(cost);
         }
 
         // GET: Agreements/Edit/5

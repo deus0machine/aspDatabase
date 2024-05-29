@@ -5,86 +5,56 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Заявки на бронь</h1>
+<div class="container">
+    <h1 class="mt-4">Заявки на бронь</h1>
 
-<p>
-    <a asp-action="Create">Создать</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.SecondName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ThirdName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumberofPhone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.passportSeries)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.nubmerPassport)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookingDateStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BookingDateEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hotel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdRoom)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThirdName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberofPhone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.passportSeries)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.nubmerPassport)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookingDateStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookingDateEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hotel.Id)
-            </td>
-            <td>
-                    @Html.DisplayFor(modelItem => item.IdRoom)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="mb-3">
+        <a class="btn btn-primary" asp-action="Create">Создать</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.SecondName)</th>
+                <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+                <th>@Html.DisplayNameFor(model => model.ThirdName)</th>
+                <th>@Html.DisplayNameFor(model => model.NumberofPhone)</th>
+                <th>@Html.DisplayNameFor(model => model.passportSeries)</th>
+                <th>@Html.DisplayNameFor(model => model.nubmerPassport)</th>
+                <th>@Html.DisplayNameFor(model => model.BookingDateStart)</th>
+                <th>@Html.DisplayNameFor(model => model.BookingDateEnd)</th>
+                <th>@Html.DisplayNameFor(model => model.Hotel)</th>
+                <th>@Html.DisplayNameFor(model => model.roomID)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.SecondName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ThirdName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.NumberofPhone)</td>
+                    <td>@Html.DisplayFor(modelItem => item.passportSeries)</td>
+                    <td>@Html.DisplayFor(modelItem => item.nubmerPassport)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BookingDateStart)</td>
+                    <td>@Html.DisplayFor(modelItem => item.BookingDateEnd)</td>
+                    <td>@(item.Hotel != null ? item.Hotel.Name : "Нет данных")</td>
+                    <td>@(item.Room != null ? item.Room.AdressRoom : "Нет данных")</td>
+                    <td>
+                        @if (User.IsInRole("admin"))
+                        {
+                        @* <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> *@
+                        <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Детали</a>
+                        <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+
+                            <a href="/BookingRequests/ConfirmBooking?id=@item.Id" class="btn btn-success">dkjhkdsfjh+</a>
+                            @* <a class="btn btn-sm btn-success" asp-action="ConfirmBooking" asp-route-id="@item.Id">Подтвердить бронь</a> *@
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

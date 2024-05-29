@@ -15,8 +15,14 @@ namespace aspDatabase.Models
                 .WithMany()  // Assuming Hotel doesn't have a collection of Rooms
                 .HasForeignKey(r => r.Idhotel)
                 .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Agreement>()
+                .HasOne(a => a.Client)
+                .WithMany()
+                .HasForeignKey(a => a.clientID)
+                .IsRequired();
 
             base.OnModelCreating(modelBuilder);
+            
         }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Client> Clients { get; set; }

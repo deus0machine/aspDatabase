@@ -45,9 +45,8 @@
 
             <div class="form-floating mb-3">
                 <select asp-for="Input.Role" class="form-control" aria-required="true">
-                    <option value="guest">Guest</option>
-                    <option value="coach">Coach</option>
-                    <option value="admin">Admin</option>
+                    <option value="guest">Гость</option>
+                    <option value="admin">Админ</option>
                 </select>
                 <label asp-for="Input.Role">Роль</label>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>

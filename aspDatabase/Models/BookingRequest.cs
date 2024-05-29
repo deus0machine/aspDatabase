@@ -26,11 +26,11 @@ namespace aspDatabase.Models
         [Display(Name = "Отель")]
 
         [ForeignKey("Hotel")]
-        public virtual int? Idhotel { get; set; }
+        public virtual int? hotelId { get; set; }
         public virtual Hotel? Hotel { get; set; }
 
         [Display(Name = "Комната")]
-        public virtual int? IdRoom { get; set; }
+        public virtual int? roomID { get; set; }
         public virtual Room? Room { get; set; }
 
     }

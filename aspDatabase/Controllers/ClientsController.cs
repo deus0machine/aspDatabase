@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using aspDatabase.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +14,7 @@ namespace aspDatabase.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Clients
         public async Task<IActionResult> Index()
         {
@@ -27,7 +22,7 @@ namespace aspDatabase.Controllers
                           View(await _context.Clients.ToListAsync()) :
                           Problem("Entity set 'RoomDBContext.Clients'  is null.");
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,7 +40,7 @@ namespace aspDatabase.Controllers
 
             return View(client);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Clients/Create
         public IActionResult Create()
         {
@@ -55,6 +50,7 @@ namespace aspDatabase.Controllers
         // POST: Clients/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,SecondName,FirstName,ThirdName,NumberofPhone,passportSeries,nubmerPassport")] Client client)
@@ -67,7 +63,7 @@ namespace aspDatabase.Controllers
             }
             return View(client);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -83,7 +79,7 @@ namespace aspDatabase.Controllers
             }
             return View(client);
         }
-
+        [Authorize(Roles = "admin")]
         // POST: Clients/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -118,7 +114,7 @@ namespace aspDatabase.Controllers
             }
             return View(client);
         }
-
+        [Authorize(Roles = "admin")]
         // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -136,7 +132,7 @@ namespace aspDatabase.Controllers
 
             return View(client);
         }
-
+        [Authorize(Roles = "admin")]
         // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

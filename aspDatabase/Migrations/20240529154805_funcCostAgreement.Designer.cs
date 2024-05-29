@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using aspDatabase.Models;
 
@@ -11,9 +12,11 @@ using aspDatabase.Models;
 namespace aspDatabase.Migrations
 {
     [DbContext(typeof(BookingDBContext))]
-    partial class BookingDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240529154805_funcCostAgreement")]
+    partial class funcCostAgreement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,11 +33,10 @@ namespace aspDatabase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Cost")
+                    b.Property<int?>("clientID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("clientID")
-                        .IsRequired()
+                    b.Property<int>("cost")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("dateDoc")
@@ -81,9 +83,18 @@ namespace aspDatabase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("IdRoom")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Idhotel")
+                        .HasColumnType("int");
+
                     b.Property<string>("NumberofPhone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("RoomID")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecondName")
                         .IsRequired()
@@ -93,23 +104,17 @@ namespace aspDatabase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("hotelId")
-                        .HasColumnType("int");
-
                     b.Property<int>("nubmerPassport")
                         .HasColumnType("int");
 
                     b.Property<int>("passportSeries")
                         .HasColumnType("int");
 
-                    b.Property<int?>("roomID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("hotelId");
+                    b.HasIndex("Idhotel");
 
-                    b.HasIndex("roomID");
+                    b.HasIndex("RoomID");
 
                     b.ToTable("BookingRequests");
                 });
@@ -213,9 +218,7 @@ namespace aspDatabase.Migrations
                 {
                     b.HasOne("aspDatabase.Models.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("clientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("clientID");
 
                     b.HasOne("aspDatabase.Models.Hotel", "Hotel")
                         .WithMany()
@@ -238,11 +241,11 @@ namespace aspDatabase.Migrations
                 {
                     b.HasOne("aspDatabase.Models.Hotel", "Hotel")
                         .WithMany()
-                        .HasForeignKey("hotelId");
+                        .HasForeignKey("Idhotel");
 
                     b.HasOne("aspDatabase.Models.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("roomID");
+                        .HasForeignKey("RoomID");
 
                     b.Navigation("Hotel");
 
